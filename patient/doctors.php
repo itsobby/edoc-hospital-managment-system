@@ -304,7 +304,8 @@ if ($_POST) {
         </div>
     </div>
     <?php 
-    if($_GET){
+    $action = isset($_GET['action']) ? $_GET['action'] : "";
+        if($_GET){
         
         $id=$_GET["id"];
         $action=$_GET["action"];

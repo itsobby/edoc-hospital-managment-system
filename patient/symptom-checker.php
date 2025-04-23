@@ -100,29 +100,37 @@ if (isset($_SESSION["user"])) {
         }
     </style>
     <script>
-        async function checkSymptoms() {
-            const symptomInput = document.getElementById('symptoms').value;
-            const symptomList = symptomInput.split(',').map(s => s.trim());
+    async function checkSymptoms() {
+        const symptomInput = document.getElementById('symptoms').value;
+        const symptomList = symptomInput.split(',').map(s => s.trim());
 
-            const response = await fetch('http://localhost/edoc-hospital-managment-system/symptom-tracker-api.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ symptoms: symptomList }),
-            });
+        const response = await fetch('http://localhost/edoc-hospital-managment-system/symptom-tracker-api.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ symptoms: symptomList }),
+        });
 
-            const data = await response.json();
-            const resultDiv = document.getElementById('result');
+        const data = await response.json();
+        const resultDiv = document.getElementById('result');
+        const viewDoctorsBtn = document.getElementById('viewDoctorsBtn');
 
-            if (data.success && data.diagnoses.length > 0) {
-                const diagnoses = data.diagnoses.map(d => `<li>${d.symptom}: ${d.diagnosis}</li>`).join('');
-                resultDiv.innerHTML = `<h3>Possible Diagnoses:</h3><ul>${diagnoses}</ul>`;
-            } else {
-                resultDiv.innerHTML = `<h3>${data.message || 'No matching diagnoses found.'}</h3>`;
-            }
+        if (data.success && data.diagnoses.length > 0) {
+            const diagnoses = data.diagnoses.map(d => `<li>${d.symptom}: ${d.diagnosis}</li>`).join('');
+            resultDiv.innerHTML = `<h3>Possible Diagnoses:</h3><ul>${diagnoses}</ul>`;
+            viewDoctorsBtn.style.display = 'block'; // Show the button
+        } else {
+            resultDiv.innerHTML = `<h3>${data.message || 'No matching diagnoses found.'}</h3>`;
+            viewDoctorsBtn.style.display = 'none'; // Hide the button
         }
-    </script>
+    }
+
+    function goToDoctorsPage() {
+        window.location.href = '../patient/doctors.php'; // Update this path if your doctors page is in a different location
+    }
+</script>
+
 </head>
 <body>
     <div class="container">
@@ -131,6 +139,7 @@ if (isset($_SESSION["user"])) {
         <input type="text" id="symptoms" placeholder="e.g., headache, fever, cough">
         <button onclick="checkSymptoms()">Check Diagnosis</button>
         <div id="result" class="result"></div>
+        <button id="viewDoctorsBtn" style="display:none; margin-top: 20px;" onclick="goToDoctorsPage()">View Doctors</button>
     </div>
 </body>
 </html>
