@@ -19,6 +19,18 @@
         .sub-table{
             animation: transitionIn-Y-bottom 0.5s;
         }
+        #specialtyDemandChart {
+        max-width: 500px;
+        max-height: 500px;
+        width: 100%;
+        height: auto;
+        margin-bottom: 30px;
+    }
+
+    #doctorDemandChart {
+        max-width: 600px;
+        margin-bottom: 40px;
+    }
     </style>
     
     
@@ -222,10 +234,11 @@
                             <center>
                                     <h2>Doctor Demand Analytics</h2>
                                         <canvas id="doctorDemandChart"></canvas>
-    
+
                                     <h2>Specialty Demand Analytics</h2>
                                         <canvas id="specialtyDemandChart"></canvas>
-                        </center>
+                            </center>
+
 
                         </table>
                     </center>
